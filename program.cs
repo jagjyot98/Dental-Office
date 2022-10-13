@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-                              /*DONE              for services we have to create some list of options for services from 
+                             /*DONE             for services we have to create some list of options for services from 
                                               which the chosen ones will be saved in patients services 
                                             list and accordingly made avialable through delegate list of functions.*/
 
@@ -76,18 +76,24 @@ namespace Assign2_Dental_office
 
     class schedulelist
     {
+        static int count = 0, datecount = 0;               // Slots and appointment date handling
+
+        string[] slots = { "8am-9am", "9am-10am", "10am-11am", "11am-12noon", "12noon-1pm", "1pm-2pm", "2pm-3pm", "3pm-4pm" };
+        string[] dates = { "01-Nov-2022", "02-Nov-2022", "03-Nov-2022", "04-Nov-2022" };
+
         private registration[] schedule = new registration[8];
         public registration this[int index]
         {
             set
             {
-                if (index % 8 ==0)
+                if (index % 8 == 0)
                 {
-                    DateTime.
+                    datecount++;
+                    count = 0;
                 }
-        }
-            get { /* return the specified index here */ }
-
+                schedule[index].slot = slots[count++];
+                schedule[index].appointdate = dates[datecount];
+            }
         }
     }
 
