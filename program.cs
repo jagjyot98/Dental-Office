@@ -1,20 +1,22 @@
 using System;
 using System.Collections;
 
-
-                                            /*for services we have to create some list of options for services from 
+                              /*DONE              for services we have to create some list of options for services from 
                                               which the chosen ones will be saved in patients services 
                                             list and accordingly made avialable through delegate list of functions.*/
 
-
+enum services
+{
+    serviceCleaning,serviceCavityFill,serviceCheckUp,serviceXRay  //,serviceDentureFitting,serviceVeneerFitting,BraceFitting
+}
 
 
 namespace Assign2_Dental_office
 {
-    public delegate void Senior();              // delgates for different types will contain service functions for each type of patient and individually
-    public delegate void Adult();
-    public delegate void Child();
-
+    public delegate void Schedule();              // delgates for different types will contain service functions for each type of patient and individually
+    //public delegate void Adult();
+    //public delegate void Child();
+    
     class registration
     {
         //string firstName;
@@ -25,7 +27,7 @@ namespace Assign2_Dental_office
         //string patientNumber; // (10-digit number)
         //string slot;
         //
-        
+        public int indexNumber { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
         public char gender { get; set; }
@@ -53,30 +55,48 @@ namespace Assign2_Dental_office
             { patientNumber = value; }
         }
 
-                                                // Services funtions AVAILABLE TO ALL
-        public void serviceCleaning()
+        // Services funtions AVAILABLE TO ALL  serviceCleaning serviceCavityFill serviceCheckUp serviceXRay
+        public static void serviceCleaning()
         {
             Console.WriteLine("The Cleaning was performed");
         }
-        public void serviceCavityFill()
+        public static void serviceCavityFill()
         {
             Console.WriteLine("The Cavity Filling was performed");
         }
-        public void serviceCheckUp()
+        public static void serviceCheckUp()
         {
             Console.WriteLine("The Check Up was performed");
         }
-        public void serviceXRay()
+        public static void serviceXRay()
         {
             Console.WriteLine("The X-Ray was performed");
         }
     }
+
+    class schedulelist
+    {
+        private registration[] schedule = new registration[8];
+        public registration this[int index]
+        {
+            set
+            {
+                if (index % 8 ==0)
+                {
+                    DateTime.
+                }
+        }
+            get { /* return the specified index here */ }
+
+        }
+    }
+
     class Seniors : registration
     {
-
+        public Seniors() { }
         int selectedService = 0;
 
-        public Seniors()                        
+        /*public Seniors()                        
         {
             firstName = "John";
             lastName = "Doe";
@@ -84,40 +104,107 @@ namespace Assign2_Dental_office
             birthDate = "01/01/1955"
         }
 
-        public Seniors(string firstName, string lastName, char gender, string birthDate, int selectedService)
+        */
+        public Seniors(int indexNumber, string category, string firstName, string lastName, char gender, string birthDate, string patientNumber)//, int selectedService)
         {
+            this.indexNumber = indexNumber;
+            this.category = category;
             this.firstName = firstName;
             this.lastName = lastName;
-            this.gender = gender;
+            this.gender = gender; 
             this.birthDate = birthDate;
-            this.selectedService = selectedService;
+            this.patientNumber = patientNumber;
+            //this.selectedService = selectedService;
         }
-        public void serviceDentureFitting()             // service avialble to Seniors 
+        public static void serviceDentureFitting()             // service avialble to Seniors 
         {
             Console.WriteLine("The Denture Fitting was performed");
         }
     }
     class Adults : registration
     {
-        public void serviceVeneersFitting()             // service avialble to Adults 
+        public Adults() { }
+        public Adults(int indexNumber, string category, string firstName, string lastName, char gender, string birthDate, string patientNumber)//, int selectedService)
+        {
+            this.indexNumber = indexNumber;
+            this.category = category;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.gender = gender;
+            this.birthDate = birthDate;
+            this.patientNumber = patientNumber;
+            //this.selectedService = selectedService;
+        }
+        public static void serviceVeneersFitting()             // service avialble to Adults 
         {
             Console.WriteLine("The Veneers Fitting was performed");
         }
     }
     class Children : registration
     {
-        public void serviceBracesFitting()             // service avialble to Children 
+        public Children() { }
+        public Children(int indexNumber, string category, string firstName, string lastName, char gender, string birthDate, string patientNumber)//, int selectedService)
+        {
+            this.indexNumber = indexNumber;
+            this.category = category;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.gender = gender;
+            this.birthDate = birthDate;
+            this.patientNumber = patientNumber;
+            //this.selectedService = selectedService;
+        }
+        public static void serviceBracesFitting()             // service avialble to Children 
         {
             Console.WriteLine("The Braces Fitting was performed");
         }
     }
     class Program
     {
+        static void printlist(ArrayList arr)       //to print list of unique persons
+        {
+            foreach (registration X in arr)         
+                Console.WriteLine("\t" + X.indexNumber + " " + X.category + " " + X.firstName + " " + X.lastName + " " + X.gender + " " + X.birthDate + " " + X.patientNumber);
+        }
         static void Main(string[] args)
         {
+            ArrayList people = new ArrayList();
+
+            Seniors senior1 = new Seniors(1,"sen", "ABC", "abc", 'M', "01-Jan-1965", "1000001");
+            Seniors senior2 = new Seniors(2, "sen","CDE", "cde", 'F', "02-Jan-1965", "1000002");
+            Seniors senior3 = new Seniors(3, "sen", "EFG", "efg", 'M', "03-Jan-1965", "1000003");
+            Seniors senior4 = new Seniors(4, "sen", "GHI", "ghi", 'F', "04-Jan-1965", "1000004");
+
+            Adults adult1 = new Adults(5, "adult", "IJK", "ijk", 'F', "0-Jan-2000", "2000001");
+            Adults adult2 = new Adults(6, "adult", "KLM", "klm", 'M', "04-Jan-2000", "2000002");
+            Adults adult3 = new Adults(7, "adult", "MNO", "mno", 'F', "04-Jan-2000", "2000003");
+            Adults adult4 = new Adults(8, "adult", "OPQ", "opq", 'M', "04-Jan-2000", "2000004");
+
+            Children child1 = new Children(9, "child", "QRS", "qrs", 'F', "04-Jan-2007", "3000001");
+            Children child2 = new Children(10, "child", "STU", "stu", 'M', "04-Jan-2007", "3000002");
+            Children child3 = new Children(11, "child", "UVW", "uvw", 'F', "04-Jan-2007", "3000003");
+            Children child4 = new Children(12, "child", "WXY", "wxy", 'M', "04-Jan-2007", "3000004");
+
+            people.Add(senior1);
+            people.Add(senior2);
+            people.Add(senior3);
+            people.Add(senior4);
+            
+            people.Add(adult1);
+            people.Add(adult2);
+            people.Add(adult3);
+            people.Add(adult4);
+            
+            people.Add(child1);
+            people.Add(child2);
+            people.Add(child3);
+            people.Add(child4);
+
             ArrayList register = new ArrayList();
             registration appointment = new registration();
             ArrayList schedule = new ArrayList();
+
+            //var bagoptions = Enum.GetValues(typeof(Bags));
 
             int count = 0, datecount = 0;               // Slots and appointment date handling
             
@@ -132,19 +219,18 @@ namespace Assign2_Dental_office
             Console.Write("\tEnter your choice from above: ");
             int mainopt = int.Parse(Console.ReadLine());
 
-
+            
             switch (mainopt)
             {
                 case 1:
                     {       //************************************ To print all people ( THEY ARE NOT PATIENTS !!)
-
-                        for(in )        // how to access each elemnet 
+                        printlist(people);
                         //Console.WriteLine("Patient Number: {0}",register.patientNumber);
-                        Console.WriteLine(register.category);
-                        Console.Write("Full Name: {0} ",register.firstName);     //Full Name: First Last (Both in single line)
-                        Console.WriteLine(register.lastName);
-                        Console.WriteLine("Gender: {0}", (register.gender == 'M' ? "Male" : "Female") );
-                        Console.WriteLine("Birth Date: {0}", register.birthDate);
+                        //Console.WriteLine(X.category);
+                        //Console.Write("Full Name: {0} ",register.firstName);     //Full Name: First Last (Both in single line)
+                        //Console.WriteLine(register.lastName);
+                        //Console.WriteLine("Gender: {0}", (register.gender == 'M' ? "Male" : "Female") );
+                        //Console.WriteLine("Birth Date: {0}", register.birthDate);
                         //Console.WriteLine("Slot: {0}", register.slot);
                         break;
                     }
@@ -152,6 +238,58 @@ namespace Assign2_Dental_office
                 case 2:
                     {   //************************************ To craete a schedule                                            
                         //change according to hard code
+                       // int personSelected;
+                        Console.Write("Select a person's Index Number: ");
+                        int personSelected = int.Parse(Console.ReadLine());
+                        registration selectedperson = (registration) people[personSelected];
+                        ArrayList serveoptns = new ArrayList(Enum.GetValues(typeof(services)));
+                        int i = 0;
+                        switch (selectedperson.category)
+                        {
+                            case "Senior":
+                                serveoptns.Add("serviceDentureFitting");
+                                foreach (var x in serveoptns)
+                                    Console.WriteLine(i++ + " " + x);
+                                /*Senior seniordelegate = Seniors.serviceDentureFitting;  //seniors service
+                                //general services
+                                seniordelegate += registration.serviceCleaning;         
+                                seniordelegate += registration.serviceCavityFill;
+                                seniordelegate += registration.serviceCheckUp;
+                                seniordelegate += registration.serviceXRay;*/
+                                break;
+
+                            case "Adult":
+                                serveoptns.Add("serviceVeneersFitting");
+                                foreach (var x in serveoptns)
+                                    Console.WriteLine(i++ + " " + x);
+                                /*Adult adultdelegate = Adults.serviceVeneersFitting;  //adults service
+                                //general services
+                                adultdelegate += registration.serviceCleaning;
+                                adultdelegate += registration.serviceCavityFill;
+                                adultdelegate += registration.serviceCheckUp;
+                                adultdelegate += registration.serviceXRay;*/
+                                break;
+
+                            case "Child":
+                                serveoptns.Add("serviceBracesFitting");
+                                foreach (var x in serveoptns)
+                                    Console.WriteLine(i++ + " " + x);
+                                /*Child childdelegate = Children.serviceBracesFitting;  //children service
+                                //general services
+                                childdelegate += registration.serviceCleaning;
+                                childdelegate += registration.serviceCavityFill;
+                                childdelegate += registration.serviceCheckUp;
+                                childdelegate += registration.serviceXRay;*/
+                                break;
+                        }
+
+                        Console.Write("Select a service from above: ");             //have to insert functin name below....
+                        var serveOptnSelected = int.Parse(Console.ReadLine());
+                        Schedule scheduledelegate;// = Schedule.serveOptnSelected;     // ....here with the delegate
+
+
+
+
                         appointment.category = Console.ReadLine();
                         if(appointment.category == "Senior")
                         {
@@ -262,140 +400,6 @@ namespace Assign2_Dental_office
                         break;
                     }
             }
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-namespace Class_task_Vet
-{
-    class patient
-    {                   // how to get a unique id for an individual patient ?
-        string name;
-        string problem;
-        public void getpatientdetail()
-        {
-            Console.WriteLine("Enter name:");
-            name = Console.ReadLine();
-            Console.WriteLine("Enter problem:");
-            problem = Console.ReadLine();
-
-        }
-        public void showpatientdetail()
-        {
-            Console.WriteLine("Name:{0}", name);
-            Console.WriteLine("problem:{0}", problem);
-        }
-    }
-    class mammal : patient
-    {
-        bool pregnancy;
-        public void getmammaldetail()
-        {
-            Console.WriteLine("Enter pregnancy status:(true/false)");
-            pregnancy = bool.Parse(Console.ReadLine());
-        }
-        public void showmammaldetail()
-        {
-            Console.WriteLine("Pregnancy status:{0}", pregnancy);
-        }
-    }
-    class fish : patient
-    {
-        bool freshwater;
-        public void getfishdetail()
-        {
-            Console.WriteLine("is fresh water:(true/false)");
-            freshwater = bool.Parse(Console.ReadLine());
-        }
-        public void showfishdetail()
-        {
-            Console.WriteLine("Is fresh water status:{0}", freshwater);
-        }
-    }
-    class bird : patient
-    {
-        bool farm;
-        public void getbirddetail()
-        {
-            Console.WriteLine("is farm bird:(true/false)");
-            farm = bool.Parse(Console.ReadLine());
-        }
-        public void showbirddetail()
-        {
-            Console.WriteLine("Is farm bird status:{0}", farm);
-        }
-    }
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            ArrayList Patients = new ArrayList();   //how to limit count of patients ?
-                                                    //int count = 9;
-                                                    //do          // use when entries doneby management at clinic 
-                                                    //{
-            Console.WriteLine("1. Mammal");
-            Console.WriteLine("2. Fish");
-            Console.WriteLine("3. Bird");
-            Console.WriteLine("Select your patient type from above:");
-            int patienttype = int.Parse(Console.ReadLine());
-
-
-            switch (patienttype)
-            {
-                case 1:
-                    {
-                        mammal M = new mammal();
-                        count--;
-                        M.getpatientdetail();
-                        M.getmammaldetail();
-                        M.showpatientdetail();
-                        M.showmammaldetail();
-                        Patients.Add(M);
-                        break;
-                    }
-                case 2:
-                    {
-                        fish F = new fish();
-                        count--;
-                        F.getpatientdetail();
-                        F.getfishdetail();
-                        F.showpatientdetail();
-                        F.showfishdetail();
-                        Patients.Add(F);
-                        break;
-                    }
-                case 3:
-                    {
-                        bird B = new bird();
-                        count--;
-                        B.getpatientdetail();
-                        B.getbirddetail();
-                        B.showpatientdetail();
-                        B.showbirddetail();
-                        Patients.Add(B);
-                        break;
-                    }
-                default:
-                    {
-                        Console.WriteLine("Invalid entry");
-                        break;
-                    }
-            }
-            // } while (count >= 0);
-            //for(int i=0;i<Patients.Count;i++)
-
         }
     }
 }
